@@ -3,7 +3,7 @@ import { ActivityIndicator, Button, View, Text, StyleSheet } from 'react-native'
 import firebase from 'firebase';
 
 
-export default class MarketScreen extends React.Component {
+export default class ProfileScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

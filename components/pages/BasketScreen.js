@@ -3,7 +3,7 @@ import { ActivityIndicator, FlatList, View, Image, Text, StyleSheet } from 'reac
 import firebase from 'firebase';
 
 
-export default class MarketScreen extends React.Component {
+export default class BasketScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

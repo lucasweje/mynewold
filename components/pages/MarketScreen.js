@@ -18,9 +18,8 @@ export default class MarketScreen extends React.Component {
     title: "Market"
   };
 
-  componentdidMount() {
+  componentDidMount() {
     this.getItemsData();
-    this.render();
   }
 
   getItemsData() {
@@ -51,9 +50,8 @@ export default class MarketScreen extends React.Component {
         data={this.state.dataSource}
         renderItem={({ item }) =>
           <ListItem
-            title={item.brand}
-            subtitle={item.color}
-       
+            title={item.category}
+                
           />
         }
         keyExtractor={(item, index) => index.toString()}
