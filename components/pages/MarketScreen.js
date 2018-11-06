@@ -27,6 +27,7 @@ export default class MarketScreen extends React.Component {
     var that = this;
     return firebase.database().ref('items').on('value', function (snapshot) {
       items = Object.values(snapshot.val());
+      console.log(items);
       that.setState({
         isLoading: false,
         dataSource: items,        
