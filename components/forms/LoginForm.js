@@ -1,0 +1,129 @@
+import React from 'react';
+import { View, TextInput, Button, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import firebase from 'firebase';
+import SignUpForm from './SignUpForm'
+
+export default class LoginForm extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: '',
+            password: '',
+            loading: false,
+            hasLogin: true,
+        }
+    }
+
+    render() {
+        switch (this.state.hasLogin) {
+            case true:
+                return (
+                   
+                    <View style={{ flex: 1, padding: 40, justifyContent: 'center', alignItems: 'stretch' }}>
+                        <Text h1 size="large">Sign In</Text>
+
+                        <TextInput
+                            label='Username'
+                            placeholder='email@email.com'
+                            value={this.state.email}
+                            onChangeText={email => this.setState({ email })}
+                        >
+                        </TextInput>
+
+                        <TextInput
+                            placeholder='password'
+                            value={this.state.password}
+                            secureTextEntry={true}
+                            onChangeText={password => this.setState({ password })}
+                        >
+                        </TextInput>
+
+                        <Text style={styles.errorTextStyle}>
+                            {this.state.error}
+                        </Text>
+
+                        {this.renderButton("Login", this.onButtonPresssSignIn.bind(this))}
+                        <Text>{'\n'}</Text>
+                        {this.renderButton("Sign Up", this.onButtonPressSetLoginFalse.bind(this))}
+                    </View>
+                );
+
+            case false:
+                return (
+                    <View>
+                        <SignUpForm />
+                        {this.renderButton("Go back", this.onButtonPressSetLoginTrue.bind(this))}
+                    </View>
+                );
+
+            default:
+                return (
+                    <ActivityIndicator size="large"></ActivityIndicator>
+                );
+        }
+
+    }
+
+
+    onButtonPressSetLoginTrue() {
+        this.setState({
+            hasLogin: true
+        });
+    }
+
+    onButtonPressSetLoginFalse() {
+        this.setState({
+            hasLogin: false
+        });
+    }
+
+    renderButton(title, onPressMethod) {
+        if (this.state.loading) {
+            return <ActivityIndicator size='large'></ActivityIndicator>
+        }
+        return (
+            <Button title={title} onPress={onPressMethod}></Button>
+        );
+    }
+
+    onButtonPresssSignIn() {
+        const { email, password } = this.state;
+
+        this.setState({
+            error: '',
+            loading: true
+        });
+
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then(this.onLoginSucces.bind(this))
+            .catch(this.onLoginFail.bind(this));
+    }
+
+    onLoginSucces() {
+        this.setState({
+            email: '',
+            password: '',
+            loading: false,
+            error: ''
+        });
+        alert('User signed in!')
+    }
+
+    onLoginFail(err) {
+        this.setState({
+            loading: false,
+            error: err.message
+        });
+    }
+
+
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+});
