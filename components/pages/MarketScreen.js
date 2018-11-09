@@ -24,14 +24,12 @@ export default class MarketScreen extends React.Component {
 
   getItemsData() {
     var that = this;
-    return firebase.database().ref('items').on('value', function (snapshot) {
+    return firebase.database().ref('items/t-shirts').on('value', function (snapshot) {
       items = Object.values(snapshot.val());
-      console.log(items);
       that.setState({
         isLoading: false,
         dataSource: items,        
       });
-      console.log(items);
     });
    
   }
@@ -50,7 +48,7 @@ export default class MarketScreen extends React.Component {
         data={this.state.dataSource}
         renderItem={({ item }) =>
           <ListItem
-            title={item.category}
+            title={item.brand}
                 
           />
         }
