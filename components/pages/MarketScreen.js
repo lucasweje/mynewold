@@ -3,6 +3,8 @@ import { ActivityIndicator, FlatList, View, Image, Text, StyleSheet } from 'reac
 import { SearchBar, ListItem } from 'react-native-elements';
 import firebase from 'firebase';
 
+// Denne skærm er den første når man trykker på market
+// Den viser de kategorier der eksisterer
 
 export default class MarketScreen extends React.Component {
   constructor(props) {
@@ -24,7 +26,7 @@ export default class MarketScreen extends React.Component {
 
   getItemsData() {
     var that = this;
-    return firebase.database().ref('items/t-shirts').on('value', function (snapshot) {
+    return firebase.database().ref('items').on('value', function (snapshot) {
       items = Object.values(snapshot.val());
       that.setState({
         isLoading: false,
@@ -48,7 +50,9 @@ export default class MarketScreen extends React.Component {
         data={this.state.dataSource}
         renderItem={({ item }) =>
           <ListItem
-            title={item.brand}
+            title={item.label}
+            onPress={() => this.props.navigation.navigate('Category', item) & console.log(item)}                   
+
                 
           />
         }
