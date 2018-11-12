@@ -9,6 +9,10 @@ import firebase from 'firebase';
 export default class MarketScreen extends React.Component {
   constructor(props) {
     super(props);
+    // For at stoppe dumme gule warning boks i appen
+    console.ignoredYellowBox = [
+      'Setting a timer'
+    ];
     this.state = {
       // Sæt 'isLoading:true' når vi har et database kald vi skal have data fra. 
       // Herefter skal den setState(isLoading: false) inde i den metode/funktion som henter dataen (se exercise5_1)
@@ -30,16 +34,16 @@ export default class MarketScreen extends React.Component {
       items = Object.values(snapshot.val());
       that.setState({
         isLoading: false,
-        dataSource: items,        
+        dataSource: items,
       });
     });
-   
+
   }
 
   render() {
     if (this.state.isLoading) {
       return (
-        <View style={{ flex: 1, padding: 20, justifyContent: 'center', alignItems: 'stretch' }}>
+        <View style={{ flex: 1, padding: 20, justifyContent: 'stretch', alignItems: 'stretch' }}>
           <ActivityIndicator />
         </View>
       )
@@ -48,12 +52,25 @@ export default class MarketScreen extends React.Component {
     return (
       <FlatList
         data={this.state.dataSource}
+        contentContainerStyle={styles.container}
         renderItem={({ item }) =>
           <ListItem
-            title={item.label}
-            onPress={() => this.props.navigation.navigate('Category', item) & console.log(item)}                   
 
-                
+            title={item.label}
+            // onPress metoden sender skærmen videre til CategoryScreen, sammen med 'label' fra databasen vi skal bruge senere
+            onPress={() => this.props.navigation.navigate('Category', {
+              label: item.label.toLowerCase()
+            }
+            )}            
+            avatar={
+              <Image               
+                style={styles.categoryImage}
+                source={{ uri: item.categoryImage }} />
+            }            
+            titleStyle={{ color: 'black', fontWeight: 'normal', fontSize: 22, }}
+            chevronColor='black'
+            containerStyle={{ backgroundColor: 'transparent' }}
+
           />
         }
         keyExtractor={(item, index) => index.toString()}
@@ -68,8 +85,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center', //Her kan den godt sættes til 'center' for at teksten kommer til at være i midten
-    justifyContent: 'center',
+    alignItems: 'stretch',
+    height: 200,
+    // justifyContent: 'center',
+
   },
 
   SearchBarContainer: {
@@ -81,6 +100,13 @@ const styles = StyleSheet.create({
   searchInputStyle: {
     paddingLeft: 80,
     paddingRight: 80,
+  },
+
+  categoryImage: {
+    width: 80,
+    height: 80,
+    borderRadius: 10,
+
   },
 
 });

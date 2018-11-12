@@ -7,11 +7,13 @@ import BasketScreen from '../pages/BasketScreen';
 import AddItemScreen from '../pages/AddItemScreen';
 import ProfileScreen from '../pages/ProfileScreen';
 import AboutScreen from '../pages/AboutScreen';
+import ProductScreen from '../pages/ProductScreen';
 
 
 const MarketStack = createStackNavigator({
     Market: { screen: MarketScreen },
     Category: {screen: CategorySreen},
+    Product: {screen: ProductScreen},
 });
 
 const BasketStack = createStackNavigator({
