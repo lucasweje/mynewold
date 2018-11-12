@@ -26,14 +26,16 @@ export default class ProductSreen extends React.Component {
         console.log(image);
 
         return (
-            <ScrollView 
+            <ScrollView
                 contentContainerStyle={styles.container}
-                pagingEnabled={true}                
-                >
+                pagingEnabled={true}
+            >
                 <PricingCard
+                    containerStyle={styles.priceModalStyle}
                     color='#4f9deb'
                     title={title}
                     price={'Points: ' + price}
+                    pricingStyle={styles.priceTextStyle}
                     info={[
                         'Color: ' + color,
                         'Size: ' + size,
@@ -41,10 +43,11 @@ export default class ProductSreen extends React.Component {
                         'Seller: ' + seller,
                         'Description: ' + description,
                     ]}
-                    button={{ title: 'Buy' }}
+                    button={{title: 'Buy'}}
+                    // onButtonPress={alert('du trkkede?')} // aktiverer når man trykker på varen i listen, ikke når man trykker på knappen
                 />
-                <Image 
-                    style={{resizeMode: 'contain', width: 300, height: 400, marginLeft: 25, marginRight: 25}}
+                <Image
+                    style={styles.imageStyle}
                     source={{ uri: image }}
                 />
             </ScrollView>
@@ -59,6 +62,22 @@ const styles = StyleSheet.create({
         // flex: 1,
         alignItems: 'center',
         // justifyContent: 'center',
+    },
+    imageStyle: {
+        resizeMode: 'contain', 
+        width: 300,
+        height: 400, 
+        marginLeft: 25, 
+        marginRight: 25, 
+        borderRadius: 10,
+
+    },
+    priceModalStyle: {
+        borderRadius: 10,
+        
+    },
+    priceTextStyle: {
+        color: 'red',
 
     },
 

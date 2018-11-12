@@ -79,7 +79,6 @@ const styles = StyleSheet.create({
         // justifyContent: 'center',
 
     },
-
     categoryImage: {
         width: 80,
         height: 80,
