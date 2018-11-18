@@ -1,19 +1,61 @@
 import React from 'react';
-import { ActivityIndicator, FlatList, View, Image, Text, StyleSheet } from 'react-native';
+import { ActivityIndicator, View, Image, Text, TextInput, StyleSheet, Button, Picker } from 'react-native';
 import firebase from 'firebase';
+import { SocialIcon } from 'react-native-elements';
 
 
 export default class AddItemScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false
+      isLoading: false,
+      title: '',
+      brand: '',
+      category: '',
+      color: '',
+      size: '',
+      description: '',
+      image: 'https://toldyouso.dk/images/Levis/Levis_Junior_501_Jeans_220118%20(1)-p.JPG',
+      price: '100',
+      seller: 'lucasweje',
     }
   }
+
 
   static navigationOptions = {
     title: "Add item"
   };
+
+
+  addItemToDatabase() {
+    const title = this.state.title;
+    const brand = this.state.brand;
+    const category = this.state.category;
+    const color = this.state.color;
+    const size = this.state.size;
+    const description = this.state.description;
+    const image = this.state.image;
+    const price = this.state.price;
+    const seller = this.state.seller;
+
+    firebase.database().ref('items/' + this.state.category)
+      .push({
+        title,
+        brand,
+        category,
+        color,
+        size,
+        description,
+        image,
+        price,
+        seller,
+      }).then((data) => {
+        alert("Adding item was a succes");
+      }).catch((error) => {
+        console.log('error', error);
+      })
+
+  }
 
   render() {
     if (this.state.isLoading) {
@@ -26,9 +68,107 @@ export default class AddItemScreen extends React.Component {
 
     return (
       <View style={styles.container}>
-        <Text>Hej Daniel, detter er ADD ITEM Screen</Text>
-      </View>
+        <View style={{ height: 50 }}>
+          <Text style={{ alignSelf: "center" }}>Title of product:</Text>
+          <TextInput
+            label='Title'
+            // placeholder='title of product'
+            value={this.state.title}
+            onChangeText={title => this.setState({ title })}
+            style={styles.textInputBorder}
+            underlineColorAndroid='transparent'
+          />
+        </View>
 
+        <View style={{ height: 50 }}>
+          <Text style={{ alignSelf: "center" }}>Brand:</Text>
+          <TextInput
+            label='brand'
+            // placeholder='brand of product'
+            value={this.state.brand}
+            onChangeText={brand => this.setState({ brand })}
+            style={styles.textInputBorder}
+            underlineColorAndroid='transparent'
+          />
+        </View>
+
+        <View style={{ height: 50 }}>
+          <Text style={{ alignSelf: "center" }}>Category:</Text>
+
+
+          {/* <TextInput
+            label='category'
+            // placeholder='category of product'
+            value={this.state.category}
+            onChangeText={category => this.setState({ category })}
+            style={styles.textInputBorder}
+            underlineColorAndroid='transparent'
+          /> */}
+
+
+          <Picker
+            selectedValue={this.state.category}
+            onValueChange={itemValue => this.setState({ category: itemValue })}
+          >
+            <Picker.Item label="Choose category:" value="" />
+            <Picker.Item label="Pants" value="pants" />
+            <Picker.Item label="T-shirts" value="t-shirts" />
+          </Picker>
+        </View>
+
+
+        <View style={{ height: 50 }}>
+          <Text style={{ alignSelf: "center" }}>Color:</Text>
+          <TextInput
+            label='color'
+            // placeholder='color of product'
+            value={this.state.color}
+            onChangeText={color => this.setState({ color })}
+            style={styles.textInputBorder}
+            underlineColorAndroid='transparent'
+          />
+        </View>
+
+        <View style={{ height: 50 }}>
+          <Text style={{ alignSelf: "center" }}>Size:</Text>
+          <TextInput
+            label='size'
+            // placeholder='size of product'
+            value={this.state.size}
+            onChangeText={size => this.setState({ size })}
+            style={styles.textInputBorder}
+            underlineColorAndroid='transparent'
+          />
+        </View>
+
+        <View style={{ height: 50 }}>
+          <Text style={{ alignSelf: "center" }}>Description:</Text>
+          <TextInput
+            label='description'
+            // placeholder='description of product'
+            value={this.state.description}
+            onChangeText={description => this.setState({ description })}
+            style={styles.textInputBorder}
+            underlineColorAndroid='transparent'
+          />
+        </View>
+
+        <View style={{ height: 50, justifyContent: "space-around", }}>
+          <Button
+            onPress={() => this.addItemToDatabase()}
+            title='Add item to store'
+            color='#6AD682'
+          >
+          </Button>
+        </View>
+
+
+
+
+
+
+
+      </View>
     );
   }
 
@@ -37,8 +177,21 @@ export default class AddItemScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: 'column',
+    // justifyContent: 'center',
+    // alignItems: 'stretch',
+    marginTop: 20,
+    marginRight: 50,
+    marginLeft: 50,
   },
+  textInputBorder: {
+    borderLeftWidth: 1,
+    borderTopWidth: 1,
+    borderRightWidth: 1,
+    borderBottomWidth: 1,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    borderBottomRightRadius: 15,
+    borderBottomLeftRadius: 15,
+  }
 });

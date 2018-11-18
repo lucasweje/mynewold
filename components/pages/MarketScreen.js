@@ -29,14 +29,18 @@ export default class MarketScreen extends React.Component {
   }
 
   getItemsData() {
-    var that = this;
-    return firebase.database().ref('items').on('value', function (snapshot) {
-      items = Object.values(snapshot.val());
+    
+    var that = this;    
+    
+    return firebase.database().ref('/items/').once('value', function (snapshot) {
+      item = Object.values(snapshot.val());  
       that.setState({
         isLoading: false,
-        dataSource: items,
+        dataSource: item,
       });
+  
     });
+    
 
   }
 
@@ -57,11 +61,10 @@ export default class MarketScreen extends React.Component {
           <ListItem
 
             title={item.label}
-            // onPress metoden sender skærmen videre til CategoryScreen, sammen med 'label' fra databasen vi skal bruge senere
-            onPress={() => this.props.navigation.navigate('Category', {
-              label: item.label.toLowerCase()
-            }
-            )}            
+
+            // onPress metoden sender skærmen videre til CategoryScreen, sammen med 'label' fra kategorierne i databasen vi skal bruge senere            
+            onPress={() => this.props.navigation.navigate('Category', {label: item.label.toLowerCase()})}   
+            
             avatar={
               <Image               
                 style={styles.categoryImage}

@@ -44,7 +44,7 @@ export default class ProductSreen extends React.Component {
                         'Description: ' + description,
                     ]}
                     button={{title: 'Buy'}}
-                    // onButtonPress={alert('du trkkede?')} // aktiverer når man trykker på varen i listen, ikke når man trykker på knappen
+                    onButtonPress={() => alert('Det ku du godt tænke dig?')} // aktiverer når man trykker på varen i listen, ikke når man trykker på knappen
                 />
                 <Image
                     style={styles.imageStyle}

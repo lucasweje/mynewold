@@ -27,12 +27,13 @@ export default class CategorySreen extends React.Component {
         // Databasen retunerer den kategori inde i items/ som der er trykke på i MarketScreen
         // Det gøres ved at sende label med til CategoryScreen i onPress metoden i MarketScreen flatlist
         // og her kaldes det label og sættes ind i referænce punktet i database kaldet 
-        return firebase.database().ref('items/' + this.props.navigation.state.params.label).on('value', function (snapshot) {
+        return firebase.database().ref('items/' + this.props.navigation.state.params.label).once('value', function (snapshot) {
             items = Object.values(snapshot.val());
             that.setState({
                 isLoading: false,
                 dataSource: items,
-            });
+            });   
+           
         });
     };
 
@@ -40,7 +41,9 @@ export default class CategorySreen extends React.Component {
     render() {
         // Behøver ikke dise to linjer mere efter vi henter data på ny i linje 30
         //  const { navigation } = this.props;
-        //  const label = navigation.getParam('label', 'no label');      
+        //  const title = navigation.getParam('items'); 
+         
+
         return (
             <FlatList
                 data={this.state.dataSource}
@@ -65,6 +68,7 @@ export default class CategorySreen extends React.Component {
                 keyExtractor={(item, index) => index.toString()}
             />
         );
+        
     }
 }
 
