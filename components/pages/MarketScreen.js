@@ -29,25 +29,25 @@ export default class MarketScreen extends React.Component {
   }
 
   getItemsData() {
-    
-    var that = this;    
-    
+
+    var that = this;
+
     return firebase.database().ref('/items/').once('value', function (snapshot) {
-      item = Object.values(snapshot.val());  
+      item = Object.values(snapshot.val());
       that.setState({
         isLoading: false,
         dataSource: item,
       });
-  
+
     });
-    
+
 
   }
 
   render() {
     if (this.state.isLoading) {
       return (
-        <View style={{ flex: 1, padding: 20, justifyContent: 'stretch', alignItems: 'stretch' }}>
+        <View style={{ flex: 1, padding: 20, justifyContent: "center", alignItems: "center" }}>
           <ActivityIndicator />
         </View>
       )
@@ -63,13 +63,13 @@ export default class MarketScreen extends React.Component {
             title={item.label}
 
             // onPress metoden sender skærmen videre til CategoryScreen, sammen med 'label' fra kategorierne i databasen vi skal bruge senere            
-            onPress={() => this.props.navigation.navigate('Category', {label: item.label.toLowerCase()})}   
-            
+            onPress={() => this.props.navigation.navigate('Category', { label: item.label.toLowerCase() })}
+
             avatar={
-              <Image               
+              <Image
                 style={styles.categoryImage}
                 source={{ uri: item.categoryImage }} />
-            }            
+            }
             titleStyle={{ color: 'black', fontWeight: 'normal', fontSize: 22, }}
             chevronColor='black'
             containerStyle={{ backgroundColor: 'transparent' }}

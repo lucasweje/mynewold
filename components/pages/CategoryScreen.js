@@ -33,6 +33,7 @@ export default class CategorySreen extends React.Component {
                 isLoading: false,
                 dataSource: items,
             });   
+            
            
         });
     };
@@ -52,7 +53,7 @@ export default class CategorySreen extends React.Component {
                     <ListItem
                         title={item.title}
                         subtitle={'Points: ' + item.price}
-                        onPress={() => this.props.navigation.navigate('Product', item) & console.log(item)}                    
+                        onPress={() => this.props.navigation.navigate('Product', item)}                    
                         avatar={
                             <Image
                                 style={styles.categoryImage}

@@ -60,7 +60,7 @@ export default class AddItemScreen extends React.Component {
   render() {
     if (this.state.isLoading) {
       return (
-        <View style={{ flex: 1, padding: 20, justifyContent: 'center', alignItems: 'stretch' }}>
+        <View style={{ flex: 1, padding: 20, justifyContent: 'center', alignItems: 'center' }}>
           <ActivityIndicator />
         </View>
       )
@@ -68,7 +68,7 @@ export default class AddItemScreen extends React.Component {
 
     return (
       <View style={styles.container}>
-        <View style={{ height: 50 }}>
+        <View style={{ height: 50, marginBottom: 15, }}>
           <Text style={{ alignSelf: "center" }}>Title of product:</Text>
           <TextInput
             label='Title'
@@ -80,7 +80,7 @@ export default class AddItemScreen extends React.Component {
           />
         </View>
 
-        <View style={{ height: 50 }}>
+        <View style={{ height: 50, marginBottom: 15, }}>
           <Text style={{ alignSelf: "center" }}>Brand:</Text>
           <TextInput
             label='brand'
@@ -92,7 +92,7 @@ export default class AddItemScreen extends React.Component {
           />
         </View>
 
-        <View style={{ height: 50 }}>
+        <View style={{ height: 50, marginBottom: 0, }}>
           <Text style={{ alignSelf: "center" }}>Category:</Text>
 
 
@@ -109,6 +109,8 @@ export default class AddItemScreen extends React.Component {
           <Picker
             selectedValue={this.state.category}
             onValueChange={itemValue => this.setState({ category: itemValue })}
+            style={{marginTop: -15}}          
+            
           >
             <Picker.Item label="Choose category:" value="" />
             <Picker.Item label="Pants" value="pants" />
@@ -117,7 +119,7 @@ export default class AddItemScreen extends React.Component {
         </View>
 
 
-        <View style={{ height: 50 }}>
+        <View style={{ height: 50, marginBottom: 15, }}>
           <Text style={{ alignSelf: "center" }}>Color:</Text>
           <TextInput
             label='color'
@@ -129,7 +131,7 @@ export default class AddItemScreen extends React.Component {
           />
         </View>
 
-        <View style={{ height: 50 }}>
+        <View style={{ height: 50, marginBottom: 15, }}>
           <Text style={{ alignSelf: "center" }}>Size:</Text>
           <TextInput
             label='size'
@@ -141,7 +143,7 @@ export default class AddItemScreen extends React.Component {
           />
         </View>
 
-        <View style={{ height: 50 }}>
+        <View style={{ height: 50, marginBottom: 15, }}>
           <Text style={{ alignSelf: "center" }}>Description:</Text>
           <TextInput
             label='description'
@@ -178,11 +180,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    // justifyContent: 'center',
+    // justifyContent: 'space-between',
     // alignItems: 'stretch',
-    marginTop: 20,
-    marginRight: 50,
-    marginLeft: 50,
+    paddingTop: 20,
+    paddingRight: 50,
+    paddingLeft: 50,
+    backgroundColor: "#fff",
   },
   textInputBorder: {
     borderLeftWidth: 1,
