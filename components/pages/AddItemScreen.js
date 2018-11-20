@@ -38,23 +38,45 @@ export default class AddItemScreen extends React.Component {
     const price = this.state.price;
     const seller = this.state.seller;
 
-    firebase.database().ref('items/' + this.state.category)
-      .push({
-        title,
-        brand,
-        category,
-        color,
-        size,
-        description,
-        image,
-        price,
-        seller,
-      }).then((data) => {
-        alert("Adding item was a succes");
-      }).catch((error) => {
-        console.log('error', error);
-      })
+    var that = this;
 
+    // Tjekker først at kateogiren er valgt fra 'Pickeren'
+    if (category) {
+      // Tjekker alle input feldter er fyldt ind med information
+      if (title && brand && color && size && description) {
+        firebase.database().ref('items/' + this.state.category)
+          .push({
+            title,
+            brand,
+            category,
+            color,
+            size,
+            description,
+            image,
+            price,
+            seller,
+          }).then((data) => {
+            alert("Adding item was a succes");
+            // Sætter state til blank for at cleare textinputs
+            that.setState({
+              title: '',
+              brand: '',
+              category: '',
+              color: '',
+              size: '',
+              description: '',
+            })
+          }).catch((error) => {
+            console.log('error', error);
+          })
+
+      } else {
+        alert("You need to fill out all the input fields");
+      }
+
+    } else {
+      alert("Remember to pick a category");
+    }
   }
 
   render() {
@@ -94,12 +116,12 @@ export default class AddItemScreen extends React.Component {
 
         <View style={{ height: 50, marginBottom: 0, }}>
           <Text style={{ alignSelf: "center" }}>Category:</Text>
-          
+
           <Picker
             selectedValue={this.state.category}
             onValueChange={itemValue => this.setState({ category: itemValue })}
-            style={{marginTop: -15}}          
-            
+            style={{ marginTop: -15 }}
+
           >
             <Picker.Item label="Choose category:" value="" />
             <Picker.Item label="Pants" value="pants" />
