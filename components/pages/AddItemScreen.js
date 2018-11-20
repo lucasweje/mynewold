@@ -94,18 +94,7 @@ export default class AddItemScreen extends React.Component {
 
         <View style={{ height: 50, marginBottom: 0, }}>
           <Text style={{ alignSelf: "center" }}>Category:</Text>
-
-
-          {/* <TextInput
-            label='category'
-            // placeholder='category of product'
-            value={this.state.category}
-            onChangeText={category => this.setState({ category })}
-            style={styles.textInputBorder}
-            underlineColorAndroid='transparent'
-          /> */}
-
-
+          
           <Picker
             selectedValue={this.state.category}
             onValueChange={itemValue => this.setState({ category: itemValue })}

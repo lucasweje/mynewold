@@ -19,47 +19,43 @@ export default class CategorySreen extends React.Component {
     };
 
     componentDidMount() {
-        this.getItemsData();
+    
     }
 
-    getItemsData() {
-        var that = this;
-        // Databasen retunerer den kategori inde i items/ som der er trykke på i MarketScreen
-        // Det gøres ved at sende label med til CategoryScreen i onPress metoden i MarketScreen flatlist
-        // og her kaldes det label og sættes ind i referænce punktet i database kaldet 
-        return firebase.database().ref('items/' + this.props.navigation.state.params.label).once('value', function (snapshot) {
-            items = Object.values(snapshot.val());
-            that.setState({
-                isLoading: false,
-                dataSource: items,
-            });   
-            
-           
-        });
-    };
+
 
 
     render() {
-        // Behøver ikke dise to linjer mere efter vi henter data på ny i linje 30
-        //  const { navigation } = this.props;
-        //  const title = navigation.getParam('items'); 
-         
+        // Modtager data fra den forrige skærm
+        const { navigation } = this.props;
+        const items = navigation.getParam('item', 'ike noge tioeither');
+
+
+        // Der laves et Array rundt om item (det kræver en FlatList), herefter filtreres alle de elementer som ikke indeholder 'brand'
+        // Det gøres for at fjerne kategoriens eget 'billede' og 'overskrift' strings, så de ikke vises i FlatListen
+        const data = Object.values(items).filter(item => {
+            if (item.hasOwnProperty('brand')) {
+                return item;
+            }
+        });
+
+
 
         return (
             <FlatList
-                data={this.state.dataSource}
+                data={data}
                 contentContainerStyle={styles.container}
                 renderItem={({ item }) =>
                     <ListItem
                         title={item.title}
                         subtitle={'Points: ' + item.price}
-                        onPress={() => this.props.navigation.navigate('Product', item)}                    
+                        onPress={() => this.props.navigation.navigate('Product', item)}
                         avatar={
                             <Image
                                 style={styles.categoryImage}
                                 source={{ uri: item.image }} />
                         }
-                        titleStyle={{color: 'black', fontSize: 16}}
+                        titleStyle={{ color: 'black', fontSize: 16 }}
                         subtitleStyle={{ color: 'black', fontWeight: "normal", fontSize: 12, }}
                         chevronColor='black'
                         containerStyle={{ backgroundColor: 'transparent' }}
@@ -69,13 +65,12 @@ export default class CategorySreen extends React.Component {
                 keyExtractor={(item, index) => index.toString()}
             />
         );
-        
+
     }
 }
 
 
 const styles = StyleSheet.create({
-
     container: {
         flex: 1,
         backgroundColor: '#fff',

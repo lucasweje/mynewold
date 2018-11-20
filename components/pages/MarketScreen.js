@@ -38,7 +38,6 @@ export default class MarketScreen extends React.Component {
         isLoading: false,
         dataSource: item,
       });
-
     });
 
 
@@ -59,12 +58,10 @@ export default class MarketScreen extends React.Component {
         contentContainerStyle={styles.container}
         renderItem={({ item }) =>
           <ListItem
-
             title={item.label}
-
-            // onPress metoden sender skærmen videre til CategoryScreen, sammen med 'label' fra kategorierne i databasen vi skal bruge senere            
-            onPress={() => this.props.navigation.navigate('Category', { label: item.label.toLowerCase() })}
-
+            // onPress metoden sender skærmen over til CategoryScreen ved at ramme dens navigationOption
+            // Den sender også item med fra Firebase kaldet, så data'en ikke skal loades igen
+            onPress={() => this.props.navigation.navigate('Category', { item: item })}
             avatar={
               <Image
                 style={styles.categoryImage}
