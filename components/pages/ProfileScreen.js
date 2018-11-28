@@ -2,6 +2,7 @@ import React from 'react';
 import { ActivityIndicator, Button, View, ScrollView, Text, StyleSheet, FlatList } from 'react-native';
 import { Avatar, ListItem } from 'react-native-elements';
 import firebase from 'firebase';
+import UpdateProfileScreen from './UpdateProfileScreen';
 
 
 export default class ProfileScreen extends React.Component {
@@ -24,12 +25,16 @@ export default class ProfileScreen extends React.Component {
   getUserData() {
     var that = this;
     return firebase.database().ref('users/').once('value', function (snapshot) {
-      items = Object.values(snapshot.val());
+      // gemmer data både som et JSON objekt og et Array så det både kan bruges i FlastList og sendes videre til UpdateProfile skærmen
+      profileObject = snapshot.val();
+      profileArray = Object.values(snapshot.val());
       that.setState({
         isLoading: false,
-        dataSource: items,
+        dataSource: profileArray,
+        profileObject: profileObject,
       });
-      console.log(items);
+      
+     
     });
   };
 
@@ -136,7 +141,7 @@ export default class ProfileScreen extends React.Component {
         </ScrollView>
 
         <View style={{ marginBottom: 15 }}>
-          <Button title="Edit profile" onPress={() => alert("DET VIRKER IKKE ENDNU SLAP AF")} color="#6AD682"></Button>
+          <Button title="Edit profile" onPress={() => this.props.navigation.navigate('UpdateProfile', {item: this.state.profileObject})} color="#6AD682"></Button>
           <Text>{'\n'}</Text>
           <Button title="Log out" onPress={() => firebase.auth().signOut()} color='red'></Button>
         </View>

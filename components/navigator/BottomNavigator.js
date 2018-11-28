@@ -6,6 +6,7 @@ import CategorySreen from '../pages/CategoryScreen';
 import BasketScreen from '../pages/BasketScreen';
 import AddItemScreen from '../pages/AddItemScreen';
 import ProfileScreen from '../pages/ProfileScreen';
+import UpdateProfileScreen from '../pages/UpdateProfileScreen';
 import AboutScreen from '../pages/AboutScreen';
 import ProductScreen from '../pages/ProductScreen';
 
@@ -22,6 +23,7 @@ const AddItemStack = createStackNavigator({
 
 const ProfileStack = createStackNavigator({
     Profile: { screen: ProfileScreen},
+    UpdateProfile: { screen: UpdateProfileScreen}
 });
 
 
