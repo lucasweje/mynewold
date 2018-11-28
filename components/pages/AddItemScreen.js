@@ -38,12 +38,14 @@ export default class AddItemScreen extends React.Component {
     const price = this.state.price;
     const seller = this.state.seller;
 
+    // Laver variabel 'that' til at holde 'this' da vi arbejder inde i et Firebase kald.
     var that = this;
 
     // Tjekker først at kateogiren er valgt fra 'Pickeren'
     if (category) {
       // Tjekker alle input feldter er fyldt ind med information
       if (title && brand && color && size && description) {
+        // pusher de indtastede informationer ind på den specifikke kategori i databasen
         firebase.database().ref('items/' + this.state.category)
           .push({
             title,
@@ -69,11 +71,9 @@ export default class AddItemScreen extends React.Component {
           }).catch((error) => {
             console.log('error', error);
           })
-
       } else {
         alert("You need to fill out all the input fields");
       }
-
     } else {
       alert("Remember to pick a category");
     }
@@ -90,6 +90,7 @@ export default class AddItemScreen extends React.Component {
 
     return (
       <View style={styles.container}>
+
         <View style={{ height: 50, marginBottom: 15, }}>
           <Text style={{ alignSelf: "center" }}>Title of product:</Text>
           <TextInput
@@ -116,19 +117,17 @@ export default class AddItemScreen extends React.Component {
 
         <View style={{ height: 50, marginBottom: 0, }}>
           <Text style={{ alignSelf: "center" }}>Category:</Text>
-
+          {/* En "dropdown" picker der kun giver brugere mulighed for at vælge de kategorier vi har oprettet */} 
           <Picker
             selectedValue={this.state.category}
             onValueChange={itemValue => this.setState({ category: itemValue })}
             style={{ marginTop: -15 }}
-
           >
             <Picker.Item label="Choose category:" value="" />
             <Picker.Item label="Pants" value="pants" />
             <Picker.Item label="T-shirts" value="t-shirts" />
           </Picker>
         </View>
-
 
         <View style={{ height: 50, marginBottom: 15, }}>
           <Text style={{ alignSelf: "center" }}>Color:</Text>
@@ -170,16 +169,10 @@ export default class AddItemScreen extends React.Component {
           <Button
             onPress={() => this.addItemToDatabase()}
             title='Add item to store'
-            color='#6AD682'
+            color='#2B8144'
           >
           </Button>
         </View>
-
-
-
-
-
-
 
       </View>
     );

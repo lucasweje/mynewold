@@ -5,14 +5,23 @@
     "slug": "projectMynewold",
     "privacy": "public",
     "sdkVersion": "30.0.0",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#2B8144"
+      },
+      "icon": "./assets/icon.png"
+    },
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#2B8144"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -21,7 +30,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "icon":"./assets/icon.png"      
     }
   }
 }

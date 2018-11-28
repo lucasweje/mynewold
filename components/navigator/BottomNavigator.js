@@ -16,10 +16,6 @@ const MarketStack = createStackNavigator({
     Product: {screen: ProductScreen},
 });
 
-const BasketStack = createStackNavigator({
-    Basket: { screen: BasketScreen},
-});
-
 const AddItemStack = createStackNavigator({
     AddItem: { screen: AddItemScreen},
 });
@@ -32,7 +28,7 @@ const ProfileStack = createStackNavigator({
 export default createBottomTabNavigator(
     {
         Market: {screen: MarketStack},
-        Basket: {screen: BasketStack},
+        Basket: {screen: BasketScreen},
         AddItem: {screen: AddItemStack},
         Profile: {screen: ProfileStack},
         About: {screen: AboutScreen},
@@ -62,7 +58,7 @@ export default createBottomTabNavigator(
           },
         }),
         tabBarOptions: {
-          activeTintColor: '#6AD682',
+          activeTintColor: '#2B8144',
           inactiveTintColor: 'gray',
         },
       }

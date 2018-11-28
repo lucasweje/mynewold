@@ -13,43 +13,36 @@ export default class ProductSreen extends React.Component {
 
     render() {
         const { navigation } = this.props;
-
-        const title = navigation.getParam('title', 'no title found')
-        const description = navigation.getParam('description', 'no Description found');
-        const price = navigation.getParam('price', 'no price found')
-        const seller = navigation.getParam('seller', 'no seller found')
-        const color = navigation.getParam('color', 'no color found')
-        const size = navigation.getParam('size', 'no size found')
-        const brand = navigation.getParam('brand', 'no brand found')
-        const image = navigation.getParam('image', 'no image foind')
-
-        console.log(image);
+        // modtager objektet item og putter det ind i items så dets attributter kan tilgås senere
+        const item = navigation.getParam('item', 'ike noge tioeither');
 
         return (
             <ScrollView
                 contentContainerStyle={styles.container}
                 pagingEnabled={true}
             >
+
                 <PricingCard
                     containerStyle={styles.priceModalStyle}
                     color='#4f9deb'
-                    title={title}
-                    price={'Points: ' + price}
+                    title={item.title}
+                    price={'Points: ' + item.price}
                     pricingStyle={styles.priceTextStyle}
                     info={[
-                        'Color: ' + color,
-                        'Size: ' + size,
-                        'Brand: ' + brand,
-                        'Seller: ' + seller,
-                        'Description: ' + description,
+                        'Color: ' + item.color,
+                        'Size: ' + item.size,
+                        'Brand: ' + item.brand,
+                        'Seller: ' + item.seller,
+                        'Description: ' + item.description,
                     ]}
                     button={{title: 'Buy'}}
-                    onButtonPress={() => alert('Det ku du godt tænke dig?')}
+                    onButtonPress={() => this.props.navigation.navigate('Basket', {item: item})}
                 />
                 <Image
                     style={styles.imageStyle}
-                    source={{ uri: image }}
+                    source={{ uri: item.image }}
                 />
+
             </ScrollView>
         );
     }

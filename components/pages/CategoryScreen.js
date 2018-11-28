@@ -49,7 +49,8 @@ export default class CategorySreen extends React.Component {
                     <ListItem
                         title={item.title}
                         subtitle={'Points: ' + item.price}
-                        onPress={() => this.props.navigation.navigate('Product', item)}
+                        // sender item fra forrige skærm med igen som et objekt 
+                        onPress={() => this.props.navigation.navigate('Product', {item: item})}
                         avatar={
                             <Image
                                 style={styles.categoryImage}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { ActivityIndicator, FlatList, View, Image, Text, StyleSheet } from 'react-native';
+import { Header } from 'react-native-elements';
 import firebase from 'firebase';
 
 
@@ -16,6 +17,13 @@ export default class BasketScreen extends React.Component {
   };
 
   render() {
+    const { navigation } = this.props;
+    const item = navigation.getParam('item', 'ike noge tioeither');
+
+
+    console.log("hej");
+    console.log(item);
+
     if (this.state.isLoading) {
       return (
         <View style={{ flex: 1, padding: 20, justifyContent: 'center', alignItems: 'stretch' }}>
@@ -25,9 +33,18 @@ export default class BasketScreen extends React.Component {
     }
 
     return (
-      <View style={styles.container}>
-        <Text>Hej Daniel, detter er BASKET Screen</Text>
+      <View style={{ flex: 1, marginTop: 10 }}>
+        <Text style={{ fontSize: 60}}>Hej</Text>
+
+        <View style={styles.container}>
+
+          <Text>Hej Daniel, detter er BASKET Screen</Text>
+          <Text>{item.title}</Text>
+        </View>
+
       </View>
+
+
 
     );
   }
