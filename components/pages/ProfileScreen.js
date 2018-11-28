@@ -156,7 +156,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginRight: 50,
     marginLeft: 50,
-
   },
   AndetView: {
     height: 100,

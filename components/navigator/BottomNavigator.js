@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
-import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import MarketScreen from '../pages/MarketScreen';
 import CategorySreen from '../pages/CategoryScreen';
 import BasketScreen from '../pages/BasketScreen';

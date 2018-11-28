@@ -2,6 +2,7 @@ import React from 'react';
 import { ActivityIndicator, FlatList, View, Image, Text, StyleSheet, ScrollView } from 'react-native';
 import { SearchBar, ListItem, PricingCard } from 'react-native-elements';
 import firebase from 'firebase';
+import BasketScreen from './BasketScreen';
 
 // Denne skærm viser det produkt man har trykket på i CategoryScreen.js
 
