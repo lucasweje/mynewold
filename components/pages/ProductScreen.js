@@ -3,6 +3,9 @@ import { ActivityIndicator, FlatList, View, Image, Text, StyleSheet, ScrollView 
 import { SearchBar, ListItem, PricingCard } from 'react-native-elements';
 import firebase from 'firebase';
 import BasketScreen from './BasketScreen';
+import EventBus from 'react-native-event-bus'
+
+
 
 // Denne skærm viser det produkt man har trykket på i CategoryScreen.js
 
@@ -11,6 +14,20 @@ export default class ProductSreen extends React.Component {
     static navigationOptions = {
         title: "Product"
     };
+
+    addToBasket(item){
+
+        EventBus.getInstance().fireEvent("addToBasket", {
+            item
+            
+        });
+
+
+        this.props.navigation.navigate('Basket', {item: item});
+
+
+
+    }
 
     render() {
         const { navigation } = this.props;
@@ -37,7 +54,7 @@ export default class ProductSreen extends React.Component {
                         'Description: ' + item.description,
                     ]}
                     button={{title: 'Buy'}}
-                    onButtonPress={() => this.props.navigation.navigate('Basket', {item: item})}
+                    onButtonPress={this.addToBasket.bind(this, item)} //this.props.navigation.navigate('Basket', {item: item})}
                 />
                 <Image
                     style={styles.imageStyle}

@@ -26,6 +26,8 @@ export default class MarketScreen extends React.Component {
 
   componentDidMount() {
     this.getItemsData();
+
+    
   }
 
   getItemsData() {
@@ -38,6 +40,9 @@ export default class MarketScreen extends React.Component {
         isLoading: false,
         dataSource: item,
       });
+
+      // console.log(that.state.dataSource);
+
     });
 
 
@@ -53,6 +58,7 @@ export default class MarketScreen extends React.Component {
     }
 
     return (
+
       <FlatList
         data={this.state.dataSource}
         contentContainerStyle={styles.container}

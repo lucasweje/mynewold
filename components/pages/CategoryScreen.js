@@ -40,7 +40,6 @@ export default class CategorySreen extends React.Component {
         });
 
 
-
         return (
             <FlatList
                 data={data}

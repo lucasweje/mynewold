@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, TextInput, Button, Text, StyleSheet, ActivityIndicator} from 'react-native';
+import { View, TextInput, Button, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import firebase from 'firebase';
 
-export default class SignUpForm extends React.Component{
-    constructor(props){
+export default class SignUpForm extends React.Component {
+    constructor(props) {
         super(props);
         this.state = {
             email: '',
@@ -13,72 +13,91 @@ export default class SignUpForm extends React.Component{
     }
 
     render() {
-        return(
+        return (
             <View>
-            <TextInput
-                label='Username'
-                placeholder='email@email.com'
-                value={this.state.email}
-                onChangeText={email => this.setState({email})}
-            >
-            </TextInput>
+                <TextInput
+                    label='Username'
+                    placeholder='email@email.com'
+                    value={this.state.email}
+                    onChangeText={email => this.setState({ email })}
+                >
+                </TextInput>
 
-            <TextInput
-                placeholder='password'
-                value={this.state.password}
-                secureTextEntry={true}
-                onChangeText={password => this.setState({password})}
-            >
-            </TextInput>
+                <TextInput
+                    placeholder='password'
+                    value={this.state.password}
+                    secureTextEntry={true}
+                    onChangeText={password => this.setState({ password })}
+                >
+                </TextInput>
 
-            <Text style={styles.errorTextStyle}>
-                {this.state.error}
-            </Text>
+                <Text style={styles.errorTextStyle}>
+                    {this.state.error}
+                </Text>
 
-            {this.renderButton()}
+                {this.renderButton()}
             </View>
-        );      
+        );
     }
 
-    renderButton(){
-        if(this.state.loading) {
+    renderButton() {
+        if (this.state.loading) {
             return <ActivityIndicator size='large'></ActivityIndicator>
         }
-        return(
+        return (
             <Button title='Sign Up' onPress={this.onButtonPress.bind(this)}></Button>
         );
     }
 
     onButtonPress() {
-        const {email, password } = this.state;
+        const { email, password } = this.state;
 
         this.setState({
             error: '',
             loading: true
         });
 
-        firebase.auth().createUserWithEmailAndPassword( email, password)
+        firebase.auth().createUserWithEmailAndPassword(email, password)
             .then(this.onSignUpSucces.bind(this))
             .catch(this.onSignUpFail.bind(this));
     }
 
     onSignUpSucces() {
+        const { email, password } = this.state;
+
+        var userId = firebase.auth().currentUser.uid;
+
+        firebase.database().ref('users/' + userId).set({
+            email,
+            firstName: "N/A",
+            lastName: "N/A",
+            gender: "N/A",
+            height: "N/A",
+            points: "500",
+
+        }).then((data) => {
+        }).catch((error) => {
+            //error callback
+            console.log('error ', error)
+        })
+
+
         this.setState({
             email: '',
             password: '',
             loading: false,
             error: ''
         });
-        alert('User created!')
+        alert('User created! \nRemember to fill out your information under the Profile tab')
     }
 
-    onSignUpFail(err){
+    onSignUpFail(err) {
         this.setState({
             loading: false,
             error: err.message
         });
     }
-    
+
 
 
 
@@ -86,9 +105,9 @@ export default class SignUpForm extends React.Component{
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
-  });
+});

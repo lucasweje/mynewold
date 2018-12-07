@@ -24,20 +24,26 @@ export default class AddItemScreen extends React.Component {
     };
 
     componentDidMount() {
-
-        const { navigation } = this.props;
-        // modtager objektet item og putter det ind i item så det kan vises inde i tekstInput
+        // modtager objektet item og putter det ind i 'item' så det kan vises inde i tekstInput
         // så behøver man kun at redigere det man ønsker, og ikke taste alting igen
+
+        const { navigation } = this.props;    
         const item = navigation.getParam('item', 'ike noge tioeither');
 
         this.setState({
-            firstName: item.lucasweje.firstName,
-            lastName: item.lucasweje.lastName,
-            gender: item.lucasweje.gender,
-            height: JSON.stringify(item.lucasweje.height),
-            email: item.lucasweje.email,
+            firstName: item.firstName,
+            lastName: item.lastName,
+            gender: item.gender,
+            // laver højde til String det Firebase kræver dette
+            height: JSON.stringify(item.height),
+            email: item.email,
         });
 
+    }
+
+    goBack(){
+        const { navigation } = this.props;    
+        navigation.goBack();
     }
 
 
@@ -57,7 +63,7 @@ export default class AddItemScreen extends React.Component {
             // Tjekker alle input feldter er fyldt ind med information
             if (firstName && lastName && height && email) {
                 // updatere databse med de indtastede informationer, men for nu kun på 'lucasweje'
-                firebase.database().ref('users/lucasweje')
+                firebase.database().ref('users/' + firebase.auth().currentUser.uid)
                     .update({
                         firstName,
                         lastName,
@@ -155,7 +161,7 @@ export default class AddItemScreen extends React.Component {
 
                 <View style={{ height: 50, justifyContent: "space-around", }}>
                     <Button
-                        onPress={() => this.updateDatabase()}
+                        onPress={() => this.updateDatabase() & this.goBack() }
                         title='Update profile information'
                         color='#2B8144'
                     >

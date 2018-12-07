@@ -10,6 +10,12 @@ export default class ProfileScreen extends React.Component {
     super(props);
     this.state = {
       isLoading: false,
+      firstName: "empty",
+      lastName: "",
+      gender: "",
+      height: "",
+      email: "",
+      points: "",
 
     }
   }
@@ -24,17 +30,25 @@ export default class ProfileScreen extends React.Component {
 
   getUserData() {
     var that = this;
-    return firebase.database().ref('users/').once('value', function (snapshot) {
+    return firebase.database().ref('users/' + firebase.auth().currentUser.uid).on('value', function (snapshot) {
       // gemmer data både som et JSON objekt og et Array så det både kan bruges i FlastList og sendes videre til UpdateProfile skærmen
       profileObject = snapshot.val();
       profileArray = Object.values(snapshot.val());
+      console.log(profileObject);
       that.setState({
         isLoading: false,
         dataSource: profileArray,
         profileObject: profileObject,
+
+        firstName: profileObject.firstName,
+        lastName: profileObject.lastName,
+        gender: profileObject.gender,
+        height: profileObject.height,
+        email: profileObject.email,
+        points: profileObject.points,
       });
-      
-     
+
+
     });
   };
 
@@ -47,93 +61,55 @@ export default class ProfileScreen extends React.Component {
       )
     }
 
-
-
-
     return (
       <View style={styles.container}>
         <ScrollView style={styles.AndetView}>
           <Avatar
             large
             rounded
-            title="LW"
+            title={this.state.firstName.charAt(0) + this.state.lastName.charAt(0)}
             onPress={() => alert("stop dig selv")}
             activeOpacity={0.7}
           />
 
+
           <View style={{ marginTop: 20, }}>
 
-            <FlatList
-              data={this.state.dataSource}
-              // contentContainerStyle={styles.container}
-              renderItem={({ item }) =>
-                <ListItem
-                  title={"Name:   " + item.firstName + " " + item.lastName}
-                  onPress={() => alert("hej")}
-                  titleStyle={{ color: 'black', fontSize: 16 }}
-                  chevronColor='transparent'
-                  containerStyle={{ backgroundColor: 'transparent' }}
-                />
-              }
-              keyExtractor={(item, index) => index.toString()}
+            <ListItem
+              title={"Name:   " + this.state.firstName + " " + this.state.lastName}
+              onPress={() => alert("hej")}
+              titleStyle={{ color: 'black', fontSize: 16 }}
+              chevronColor='transparent'
+              containerStyle={{ backgroundColor: 'transparent' }}
             />
-            <FlatList
-              data={this.state.dataSource}
-              // contentContainerStyle={styles.container}
-              renderItem={({ item }) =>
-                <ListItem
-                  title={"Gender:   " + item.gender}
-                  onPress={() => alert("hej")}
-                  titleStyle={{ color: 'black', fontSize: 16 }}
-                  chevronColor='transparent'
-                  containerStyle={{ backgroundColor: 'transparent' }}
-                />
-              }
-              keyExtractor={(item, index) => index.toString()}
+            <ListItem
+              title={"Gender:   " + this.state.gender}
+              onPress={() => alert("hej")}
+              titleStyle={{ color: 'black', fontSize: 16 }}
+              chevronColor='transparent'
+              containerStyle={{ backgroundColor: 'transparent' }}
             />
-            <FlatList
-              data={this.state.dataSource}
-              // contentContainerStyle={styles.container}
-              renderItem={({ item }) =>
-                <ListItem
-                  title={"Height:   " + item.height + " cm"}
-                  onPress={() => alert("hej")}
-                  titleStyle={{ color: 'black', fontSize: 16 }}
-                  chevronColor='transparent'
-                  containerStyle={{ backgroundColor: 'transparent' }}
-                />
-              }
-              keyExtractor={(item, index) => index.toString()}
+            <ListItem
+              title={"Height:   " + this.state.height + " cm"}
+              onPress={() => alert("hej")}
+              titleStyle={{ color: 'black', fontSize: 16 }}
+              chevronColor='transparent'
+              containerStyle={{ backgroundColor: 'transparent' }}
             />
-            <FlatList
-              data={this.state.dataSource}
-              // contentContainerStyle={styles.container}
-              renderItem={({ item }) =>
-                <ListItem
-                  title={"Points available:   " + item.points}
-                  onPress={() => alert("hej")}
-                  titleStyle={{ color: 'black', fontSize: 16 }}
-                  chevronColor='transparent'
-                  containerStyle={{ backgroundColor: 'transparent' }}
-                />
-              }
-              keyExtractor={(item, index) => index.toString()}
+            <ListItem
+              title={"Email:   " + this.state.email}
+              onPress={() => alert("hej")}
+              titleStyle={{ color: 'black', fontSize: 16 }}
+              chevronColor='transparent'
+              containerStyle={{ backgroundColor: 'transparent' }}
             />
-            <FlatList
-              data={this.state.dataSource}
-              // contentContainerStyle={styles.container}
-              renderItem={({ item }) =>
-                <ListItem
-                  title={"Email:   " + item.email}
-                  onPress={() => alert("hej")}
-                  titleStyle={{ color: 'black', fontSize: 16 }}
-                  chevronColor='transparent'
-                  containerStyle={{ backgroundColor: 'transparent' }}
-                />
-              }
-              keyExtractor={(item, index) => index.toString()}
+            <ListItem
+              title={"Points:   " + this.state.points}
+              onPress={() => alert("hej")}
+              titleStyle={{ color: 'black', fontSize: 16 }}
+              chevronColor='transparent'
+              containerStyle={{ backgroundColor: 'transparent' }}
             />
-
 
           </View>
 
@@ -141,7 +117,7 @@ export default class ProfileScreen extends React.Component {
         </ScrollView>
 
         <View style={{ marginBottom: 15 }}>
-          <Button title="Edit profile" onPress={() => this.props.navigation.navigate('UpdateProfile', {item: this.state.profileObject})} color="#6AD682"></Button>
+          <Button title="Edit profile" onPress={() => this.props.navigation.navigate('UpdateProfile', { item: this.state.profileObject })} color="#6AD682"></Button>
           <Text>{'\n'}</Text>
           <Button title="Log out" onPress={() => firebase.auth().signOut()} color='red'></Button>
         </View>
