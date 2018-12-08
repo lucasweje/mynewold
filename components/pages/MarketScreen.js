@@ -27,14 +27,14 @@ export default class MarketScreen extends React.Component {
   componentDidMount() {
     this.getItemsData();
 
-    
+
   }
 
   getItemsData() {
 
     var that = this;
 
-    return firebase.database().ref('/items/').once('value', function (snapshot) {
+    return firebase.database().ref('/items/').on('value', function (snapshot) {
       item = Object.values(snapshot.val());
       that.setState({
         isLoading: false,
@@ -58,29 +58,32 @@ export default class MarketScreen extends React.Component {
     }
 
     return (
+      <View style={styles.container}>
 
-      <FlatList
-        data={this.state.dataSource}
-        contentContainerStyle={styles.container}
-        renderItem={({ item }) =>
-          <ListItem
-            title={item.label}
-            // onPress metoden sender skærmen over til CategoryScreen ved at ramme dens navigationOption
-            // Den sender også item med fra Firebase kaldet, så data'en ikke skal loades igen
-            onPress={() => this.props.navigation.navigate('Category', { item: item })}
-            avatar={
-              <Image
-                style={styles.categoryImage}
-                source={{ uri: item.categoryImage }} />
-            }
-            titleStyle={{ color: 'black', fontWeight: 'normal', fontSize: 22, }}
-            chevronColor='black'
-            containerStyle={{ backgroundColor: 'transparent' }}
+        <FlatList
+          data={this.state.dataSource}
+          renderItem={({ item }) =>
+            <ListItem
+              title={item.label}
+              // onPress metoden sender skærmen over til CategoryScreen ved at ramme dens navigationOption
+              // Den sender også item med fra Firebase kaldet, så data'en ikke skal loades igen
+              onPress={() => this.props.navigation.navigate('Category', { item: item })}
+              avatar={
+                <Image
+                  style={styles.categoryImage}
+                  source={{ uri: item.categoryImage }} />
+              }
+              titleStyle={{ color: 'black', fontWeight: 'normal', fontSize: 20, }}
+              chevronColor='black'
+              containerStyle={{ backgroundColor: 'transparent' }}
 
-          />
-        }
-        keyExtractor={(item, index) => index.toString()}
-      />
+            />
+          }
+          keyExtractor={(item, index) => index.toString()}
+        />
+
+      </View>
+
 
     );
   }
@@ -90,9 +93,10 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    alignItems: 'stretch',
-    height: 200,
-    // justifyContent: 'center',
+    flexDirection: "column",
+    height: "100%",
+    marginLeft: 5,
+    marginRight: 5,
 
   },
 

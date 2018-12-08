@@ -61,9 +61,10 @@ export default class BasketScreen extends React.Component {
       itemInBasket.push(data.item);
 
       // finder tøjet i Basket's totale værdi ved og gå igennem hele arrayet gemmer den i "newTotalPrice"
+      // parseInt() fordi price gemmes som String i databasen
       var newTotalPrice = 0;
       itemInBasket.forEach(function (item) {
-        newTotalPrice += item.price;
+        newTotalPrice += parseInt(item.price);
       });
 
       // gemmer arrayet og den totale pris under i staten 
@@ -120,17 +121,16 @@ export default class BasketScreen extends React.Component {
           <View style={styles.AndetView}>
             <FlatList
               data={this.state.dataSource}
-              //      contentContainerStyle={styles.container}
               extraData={this.state.refresh}
               renderItem={({ item }) =>
                 <ListItem
                   title={item.title}
                   subtitle={'Points: ' + item.price}
-                  avatar={
-                    <Image
-                      style={styles.categoryImage}
-                      source={{ uri: item.image }} />
-                  }
+                  // avatar={
+                  //   <Image
+                  //     style={styles.categoryImage}
+                  //     source={{ uri: item.image }} />
+                  // }
                   titleStyle={{ color: 'black', fontSize: 16 }}
                   subtitleStyle={{ color: 'black', fontWeight: "normal", fontSize: 12, }}
                   chevronColor='transparent'
