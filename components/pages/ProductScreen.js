@@ -15,18 +15,16 @@ export default class ProductSreen extends React.Component {
         title: "Product"
     };
 
+    // funktion der køres når der klikkes på knappen i UI
     addToBasket(item){
-
+        // Eventbus oprettes der 'fire et event' når knappen aktiveres
+        // information om 'item' sendes til EventBus ruten "addToBasket"
+        // i "BasketScreen" lytter Eventbus på hvilke items der bliver sendt
         EventBus.getInstance().fireEvent("addToBasket", {
-            item
-            
+            item            
         });
-
-
+  
         this.props.navigation.navigate('Basket', {item: item});
-
-
-
     }
 
     render() {
@@ -53,8 +51,8 @@ export default class ProductSreen extends React.Component {
                         'Seller: ' + item.seller,
                         'Description: ' + item.description,
                     ]}
-                    button={{title: 'Buy'}}
-                    onButtonPress={this.addToBasket.bind(this, item)} //this.props.navigation.navigate('Basket', {item: item})}
+                    button={{title: 'Add to basket'}}
+                    onButtonPress={this.addToBasket.bind(this, item)}
                 />
                 <Image
                     style={styles.imageStyle}
@@ -85,6 +83,7 @@ const styles = StyleSheet.create({
     },
     priceModalStyle: {
         borderRadius: 10,
+        
         
     },
     priceTextStyle: {

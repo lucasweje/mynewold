@@ -16,7 +16,6 @@ export default class ProfileScreen extends React.Component {
       height: "",
       email: "",
       points: "",
-
     }
   }
 
@@ -30,16 +29,18 @@ export default class ProfileScreen extends React.Component {
 
   getUserData() {
     var that = this;
+    // tager currentUser for at finde deres specifikke data
     return firebase.database().ref('users/' + firebase.auth().currentUser.uid).on('value', function (snapshot) {
       // gemmer data både som et JSON objekt og et Array så det både kan bruges i FlastList og sendes videre til UpdateProfile skærmen
       profileObject = snapshot.val();
       profileArray = Object.values(snapshot.val());
-      console.log(profileObject);
+
       that.setState({
         isLoading: false,
         dataSource: profileArray,
         profileObject: profileObject,
 
+        // gemmer data i staten om brugeren der er logget ind
         firstName: profileObject.firstName,
         lastName: profileObject.lastName,
         gender: profileObject.gender,
@@ -47,8 +48,6 @@ export default class ProfileScreen extends React.Component {
         email: profileObject.email,
         points: profileObject.points,
       });
-
-
     });
   };
 
@@ -74,7 +73,6 @@ export default class ProfileScreen extends React.Component {
 
 
           <View style={{ marginTop: 20, }}>
-
             <ListItem
               title={"Name:   " + this.state.firstName + " " + this.state.lastName}
               onPress={() => alert("hej")}
@@ -110,7 +108,6 @@ export default class ProfileScreen extends React.Component {
               chevronColor='transparent'
               containerStyle={{ backgroundColor: 'transparent' }}
             />
-
           </View>
 
 
