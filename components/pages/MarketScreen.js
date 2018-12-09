@@ -16,7 +16,7 @@ export default class MarketScreen extends React.Component {
     this.state = {
       // Sæt 'isLoading:true' når vi har et database kald vi skal have data fra. 
       // Herefter skal den setState(isLoading: false) inde i den metode/funktion som henter dataen (se exercise5_1)
-      isLoading: false
+      isLoading: true
     }
   }
 

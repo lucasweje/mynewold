@@ -18,7 +18,7 @@ export default class AddItemScreen extends React.Component {
       size: '',
       description: '',
       image: '',
-      price: '100',
+      price: '',
       seller: '',
     }
   }
@@ -43,13 +43,12 @@ export default class AddItemScreen extends React.Component {
     var size = this.state.size;
     var description = this.state.description;
     var image = firebase.auth().currentUser.uid + title;
-    var price = this.state.price;
+    var price = Math.floor((Math.random() * 100) +10);
     var result = this.state.result;
     var seller = this.state.seller;
 
     // Laver variabel 'that' til at holde 'this' da vi arbejder inde i et Firebase kald.
     var that = this;  
-
 
     // Tjekker først at kateogiren er valgt fra 'Pickeren'
     if (category) {
@@ -135,6 +134,8 @@ export default class AddItemScreen extends React.Component {
   }
 
   render() {
+
+    
 
 
     if (this.state.isLoading) {

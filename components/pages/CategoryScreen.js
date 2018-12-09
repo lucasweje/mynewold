@@ -10,11 +10,9 @@ export default class CategorySreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoading: false,
-            image: "HÆHÆHÆ",
-            dataSource: [],
-            imageDataSource: "n/a",
-
+            isLoading: true,
+            dataSource: []
+            
         }
     }
 
@@ -27,8 +25,6 @@ export default class CategorySreen extends React.Component {
         const { navigation } = this.props;
         const items = navigation.getParam('item', 'ike noge tioeither');
 
-
-
         // Der laves et Array rundt om item (det kræver en FlatList), herefter filtreres alle de elementer som ikke indeholder 'brand'
         // Det gøres for at fjerne kategoriens eget 'billede' og 'overskrift' strings, så de ikke vises i FlatListen
         const data = Object.values(items).filter(item => {
@@ -37,28 +33,67 @@ export default class CategorySreen extends React.Component {
             }
         });
 
+        // laver et array der kun indeholder tøj objektets image attribut
+        var nyData = data;
+        var imageID = [];
+        for (var i = 0; i < data.length; i++) {
+            imageID.push(data[i].image);
+        }
+
+        this.getImage(imageID, nyData);
+
+    }
+
+    getImage = async (imageID, data) => {
+        var that = this;
+        // laver en referene til 'storage' hvor billeder der uploades direkte fra appen gemmes
+        let storageRef = firebase.storage().ref();
+
+        var imageURL = [];
+
+        // for loopet kører igennem imageID's længde så vi finder en URL til hvert imageID
+        for (var i = 0; i < imageID.length; i++) {
+
+            // vi går ind i 'images' mappen og giver det unikke ID vi får fra imageID
+            // PROBLEM: getDownloadURL() er async så det er ikke altid at billede og tøj matcher.
+            storageRef.child("images/" + imageID[i]).getDownloadURL().then(function (url) {
+
+                // vi pusher URL'en der hører til det unikke ID ind i et tomt array
+                imageURL.push(url);
+
+                // er længden på ID array'et og URL array'et den samme er vi sikre på alle billeder er kommet med
+                if (imageURL.length === imageID.length) {
+                    that.changeUrlInArray(imageURL, data);
+
+                }
+            });
+
+        }
+
+    }
+
+    changeUrlInArray(imageURL, realData) {
+        // Kører igennem hele længden på vores array
+        for (var i = 0; i < realData.length; i++) {
+            // sætter "image" i array'et lig med URL fra firebase så hvert stykke tøj kan vise sit billede
+            realData[i].image = imageURL[i];
+        }
+
         this.setState({
-            dataSource: data,
+            dataSource: realData
         });
-
-        // lavet et nyt array der kun indeholder image url 
-        //  var imageData= [];
-        //  data.forEach(function (data) {
-        //     imageData.push(data.image)
-        //  });
-
-
-
 
     }
 
 
     render() {
+        // opretter dataSource som objekt så vi kan tjekke dens længde
+        const data = this.state.dataSource;
 
-        if (this.state.dataSource.length !== 0) {
+        if (data.length !== 0) {
             return (
                 <FlatList
-                    data={this.state.dataSource}
+                    data={data}
                     contentContainerStyle={styles.container}
                     renderItem={({ item }) =>
                         <ListItem
@@ -66,11 +101,12 @@ export default class CategorySreen extends React.Component {
                             subtitle={'Points: ' + item.price}
                             // sender item fra forrige skærm med igen som et objekt 
                             onPress={() => this.props.navigation.navigate('Product', { item: item })}
-                            // avatar={
-                            //     <Image
-                            //         style={styles.categoryImage}
-                            //         source={{ uri: item.image }} />
-                            // }
+                            avatar={
+                                <Image
+                                    style={styles.categoryImage}
+                                    source={{ uri: item.image }} />
+                            }
+                            // "https://firebasestorage.googleapis.com/v0/b/projectmynewold.appspot.com/o/images%2FXIzFFqqilbXylADE93ONnbmcJy23Lacoste%20shoes?alt=media&token=654552e6-8626-4884-a097-7c1d9f3aadb5"
                             titleStyle={{ color: 'black', fontSize: 16 }}
                             subtitleStyle={{ color: 'black', fontWeight: "normal", fontSize: 12, }}
                             chevronColor='black'
@@ -89,6 +125,8 @@ export default class CategorySreen extends React.Component {
                 </View>
             );
         }
+
+
     }
 }
 
@@ -102,10 +140,10 @@ const styles = StyleSheet.create({
 
     },
     categoryImage: {
-        resizeMode: 'contain',
+        resizeMode: "contain",
         width: 80,
         height: 80,
-        borderRadius: 10,
+        borderRadius: 30,
 
     },
 

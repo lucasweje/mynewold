@@ -126,11 +126,11 @@ export default class BasketScreen extends React.Component {
                 <ListItem
                   title={item.title}
                   subtitle={'Points: ' + item.price}
-                  // avatar={
-                  //   <Image
-                  //     style={styles.categoryImage}
-                  //     source={{ uri: item.image }} />
-                  // }
+                  avatar={
+                    <Image
+                      style={styles.categoryImage}
+                      source={{ uri: item.image }} />
+                  }
                   titleStyle={{ color: 'black', fontSize: 16 }}
                   subtitleStyle={{ color: 'black', fontWeight: "normal", fontSize: 12, }}
                   chevronColor='transparent'
@@ -172,8 +172,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   categoryImage: {
-    width: 30,
-    height: 30,
+    width: 40,
+    height: 40,
     borderRadius: 10,
 
   },

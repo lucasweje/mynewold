@@ -56,10 +56,12 @@ export default class ProductSreen extends React.Component {
             brand: item.brand, 
             seller: item.seller,
             description: item.description,
+            image: item.image,
         });
 
+        // HUSK FJERN DISSE KOMMENTAR HVIS VI SKAL HAVE DET RIGTIGE BILLEDE, LIGE NU ER DET RANDOM NEMLIG
         // kalder getImage med et unikt billede ID
-        this.getImage(item.image);
+        // this.getImage(item.image);
 
     }
 
@@ -77,7 +79,9 @@ export default class ProductSreen extends React.Component {
         });
     }
 
+    
     render() {
+        console.log(this.state.image);
         return (
             <ScrollView
                 contentContainerStyle={styles.container}
