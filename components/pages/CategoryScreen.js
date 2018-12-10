@@ -7,12 +7,14 @@ import firebase from 'firebase';
 
 export default class CategorySreen extends React.Component {
 
+
+
     constructor(props) {
         super(props);
         this.state = {
             isLoading: true,
-            dataSource: []
-            
+            dataSource: [],
+
         }
     }
 
@@ -21,6 +23,7 @@ export default class CategorySreen extends React.Component {
     };
 
     componentDidMount() {
+
         // Modtager data fra den forrige skærm
         const { navigation } = this.props;
         const items = navigation.getParam('item', 'ike noge tioeither');
@@ -41,8 +44,9 @@ export default class CategorySreen extends React.Component {
         }
 
         this.getImage(imageID, nyData);
-
+        
     }
+
 
     getImage = async (imageID, data) => {
         var that = this;
@@ -56,15 +60,20 @@ export default class CategorySreen extends React.Component {
 
             // vi går ind i 'images' mappen og giver det unikke ID vi får fra imageID
             // PROBLEM: getDownloadURL() er async så det er ikke altid at billede og tøj matcher.
-            storageRef.child("images/" + imageID[i]).getDownloadURL().then(function (url) {
-
+            storageRef.child("images/" + imageID[i])
+                .getDownloadURL()
+                // fanger hvis der er fejl, returnerer "n/a" så billedet i FlatList bliver tomt i stedet for app'en crasher
+                .catch(err => {
+                    console.log(err);
+                    return "n/a";
+                })
+                .then(function (url) {
                 // vi pusher URL'en der hører til det unikke ID ind i et tomt array
                 imageURL.push(url);
 
                 // er længden på ID array'et og URL array'et den samme er vi sikre på alle billeder er kommet med
                 if (imageURL.length === imageID.length) {
                     that.changeUrlInArray(imageURL, data);
-
                 }
             });
 
@@ -80,8 +89,9 @@ export default class CategorySreen extends React.Component {
         }
 
         this.setState({
-            dataSource: realData
+            dataSource: realData,
         });
+
 
     }
 
