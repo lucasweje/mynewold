@@ -7,8 +7,6 @@ import firebase from 'firebase';
 
 export default class CategorySreen extends React.Component {
 
-
-
     constructor(props) {
         super(props);
         this.state = {
@@ -24,29 +22,58 @@ export default class CategorySreen extends React.Component {
 
     componentDidMount() {
 
-        // Modtager data fra den forrige skærm
+        // Modtager den valgte kategorien som string fra den forrige skærm
         const { navigation } = this.props;
         const items = navigation.getParam('item', 'ike noge tioeither');
 
+        this.getItemsData(items.toLowerCase());
+
+
         // Der laves et Array rundt om item (det kræver en FlatList), herefter filtreres alle de elementer som ikke indeholder 'brand'
         // Det gøres for at fjerne kategoriens eget 'billede' og 'overskrift' strings, så de ikke vises i FlatListen
-        const data = Object.values(items).filter(item => {
-            if (item.hasOwnProperty('brand')) {
-                return item;
-            }
-        });
+        // const data = Object.values(items).filter(item => {
+        //     if (item.hasOwnProperty('brand')) {
+        //         return item;
+        //     }
+        // });
 
         // laver et array der kun indeholder tøj objektets image attribut
-        var nyData = data;
-        var imageID = [];
-        for (var i = 0; i < data.length; i++) {
-            imageID.push(data[i].image);
-        }
+        // var nyData = data;
+        // var imageID = [];
+        // for (var i = 0; i < data.length; i++) {
+        //     imageID.push(data[i].image);
+        // }
 
-        this.getImage(imageID, nyData);
-        
+        // this.getImage(imageID, nyData);
+
     }
 
+    getItemsData(category) {
+        var that = this;
+
+        return firebase.database().ref('/items/' + category).on('value', function (snapshot) {
+            // itemz = Object.values(snapshot.val());
+
+            // Der laves et Array rundt om item (det kræver en FlatList), herefter filtreres alle de elementer som ikke indeholder 'brand'
+            // Det gøres for at fjerne kategoriens eget 'billede' og 'overskrift' strings, så de ikke vises i FlatListen
+            const data = Object.values(snapshot.val()).filter(item => {
+                if (item.hasOwnProperty('brand')) {
+                    return item;
+                }
+            });
+
+             // laver et array der kun indeholder tøj objektets image attribut
+            var imageID = [];
+            for (var i = 0; i < data.length; i++) {
+                imageID.push(data[i].image);
+            }
+
+            // kalder funktionen der henter URL der er knyttet til tøjet imageID
+            that.getImage(imageID, data);
+
+        });
+
+    }
 
     getImage = async (imageID, data) => {
         var that = this;
@@ -64,18 +91,17 @@ export default class CategorySreen extends React.Component {
                 .getDownloadURL()
                 // fanger hvis der er fejl, returnerer "n/a" så billedet i FlatList bliver tomt i stedet for app'en crasher
                 .catch(err => {
-                    console.log(err);
                     return "n/a";
                 })
                 .then(function (url) {
-                // vi pusher URL'en der hører til det unikke ID ind i et tomt array
-                imageURL.push(url);
+                    // vi pusher URL'en der hører til det unikke ID ind i et tomt array
+                    imageURL.push(url);
 
-                // er længden på ID array'et og URL array'et den samme er vi sikre på alle billeder er kommet med
-                if (imageURL.length === imageID.length) {
-                    that.changeUrlInArray(imageURL, data);
-                }
-            });
+                    // er længden på ID array'et og URL array'et den samme er vi sikre på alle billeder er kommet med
+                    if (imageURL.length === imageID.length) {
+                        that.changeUrlInArray(imageURL, data);
+                    }
+                });
 
         }
 
@@ -91,8 +117,6 @@ export default class CategorySreen extends React.Component {
         this.setState({
             dataSource: realData,
         });
-
-
     }
 
 
@@ -116,7 +140,6 @@ export default class CategorySreen extends React.Component {
                                     style={styles.categoryImage}
                                     source={{ uri: item.image }} />
                             }
-                            // "https://firebasestorage.googleapis.com/v0/b/projectmynewold.appspot.com/o/images%2FXIzFFqqilbXylADE93ONnbmcJy23Lacoste%20shoes?alt=media&token=654552e6-8626-4884-a097-7c1d9f3aadb5"
                             titleStyle={{ color: 'black', fontSize: 16 }}
                             subtitleStyle={{ color: 'black', fontWeight: "normal", fontSize: 12, }}
                             chevronColor='black'

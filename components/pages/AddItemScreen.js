@@ -220,7 +220,7 @@ export default class AddItemScreen extends React.Component {
           />
         </View>
 
-        <View style={{ height: 50, marginBottom: 15, }}>
+        <View style={{ height: 50, marginBottom: 35, }}>
           <Text style={{ alignSelf: "center" }}>Description:</Text>
           <TextInput
             label='description'
