@@ -3,6 +3,8 @@ import { ActivityIndicator, FlatList, View, Image, Text, StyleSheet, Button, } f
 import { ListItem, } from 'react-native-elements';
 import EventBus from 'react-native-event-bus';
 import firebase from 'firebase';
+import { MaterialIcons } from '@expo/vector-icons';
+
 
 
 export default class BasketScreen extends React.Component {
@@ -106,17 +108,17 @@ export default class BasketScreen extends React.Component {
     } if (this.state.dataSource.length === 0) {
       return (
         <View style={styles.container}>
-          <Text style={{ fontSize: 22, fontWeight: "bold" }}>Basket</Text>
+          <Text style={{ fontSize: 20, fontWeight: "bold" }}>Basket</Text>
 
           <View style={{ alignItems: 'center', flex: 1, justifyContent: 'center' }}>
-            <Text style={{ fontSize: 22, }}>Basket is empty!</Text>
+            <Text style={{ fontSize: 20, }}>Basket is empty!</Text>
           </View>
         </View>
       )
     } else {
       return (
         <View style={styles.container}>
-          <Text style={{ fontSize: 22, fontWeight: "bold" }}>Basket</Text>
+          <Text style={{ fontSize: 20, fontWeight: "bold" }}>Basket</Text>
 
           <View style={styles.AndetView}>
             <FlatList
@@ -133,7 +135,7 @@ export default class BasketScreen extends React.Component {
                   }
                   titleStyle={{ color: 'black', fontSize: 16 }}
                   subtitleStyle={{ color: 'black', fontWeight: "normal", fontSize: 12, }}
-                  chevronColor='transparent'
+                  hideChevron
                   containerStyle={{ backgroundColor: 'transparent' }}
                 />
               }
@@ -146,7 +148,7 @@ export default class BasketScreen extends React.Component {
             <Button
               title="Checkout"
               color='#2B8144'
-              onPress={() => alert("Items in basket has been purchased!") & this.setState({dataSource: []})}
+              onPress={() => alert("Items in basket has been purchased!") & this.setState({ dataSource: [] })}
             />
           </View>
         </View>
@@ -160,9 +162,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    marginTop: 30,
+    marginTop: 40,
     marginRight: 30,
-    marginLeft: 30,
+    marginLeft: 20,
 
   },
   AndetView: {

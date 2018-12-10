@@ -75,35 +75,30 @@ export default class ProfileScreen extends React.Component {
           <View style={{ marginTop: 20, }}>
             <ListItem
               title={"Name:   " + this.state.firstName + " " + this.state.lastName}
-              onPress={() => alert("hej")}
               titleStyle={{ color: 'black', fontSize: 16 }}
               chevronColor='transparent'
               containerStyle={{ backgroundColor: 'transparent' }}
             />
             <ListItem
               title={"Gender:   " + this.state.gender}
-              onPress={() => alert("hej")}
               titleStyle={{ color: 'black', fontSize: 16 }}
               chevronColor='transparent'
               containerStyle={{ backgroundColor: 'transparent' }}
             />
             <ListItem
               title={"Height:   " + this.state.height + " cm"}
-              onPress={() => alert("hej")}
               titleStyle={{ color: 'black', fontSize: 16 }}
               chevronColor='transparent'
               containerStyle={{ backgroundColor: 'transparent' }}
             />
             <ListItem
               title={"Email:   " + this.state.email}
-              onPress={() => alert("hej")}
               titleStyle={{ color: 'black', fontSize: 16 }}
               chevronColor='transparent'
               containerStyle={{ backgroundColor: 'transparent' }}
             />
             <ListItem
               title={"Points:   " + this.state.points}
-              onPress={() => alert("hej")}
               titleStyle={{ color: 'black', fontSize: 16 }}
               chevronColor='transparent'
               containerStyle={{ backgroundColor: 'transparent' }}
@@ -111,13 +106,17 @@ export default class ProfileScreen extends React.Component {
           </View>
 
 
+
         </ScrollView>
 
-        <View style={{ marginBottom: 15 }}>
-          <Button title="Edit profile" onPress={() => this.props.navigation.navigate('UpdateProfile', { item: this.state.profileObject })} color="#6AD682"></Button>
+        
+        <View style={{ marginBottom: 20 }}>
+          <Button title="Edit profile" onPress={() => this.props.navigation.navigate('UpdateProfile', { item: this.state.profileObject })} color="#2B8144"></Button>
           <Text>{'\n'}</Text>
           <Button title="Log out" onPress={() => firebase.auth().signOut()} color='red'></Button>
         </View>
+
+      
 
 
       </View>
@@ -137,8 +136,8 @@ const styles = StyleSheet.create({
   },
   AndetView: {
     height: 100,
-    marginBottom: 20,
-    flexDirection: 'row',
+    marginBottom: 5,
+    flexDirection: 'column',
 
   },
   listContainer: {
