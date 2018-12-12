@@ -82,7 +82,7 @@ export default class CategorySreen extends React.Component {
 
         var imageURL = [];
 
-        // for loopet kører igennem imageID's længde så vi finder en URL til hvert imageID
+        // loopet kører igennem imageID's længde så vi finder en URL til hvert imageID
         for (var i = 0; i < imageID.length; i++) {
 
             // vi går ind i 'images' mappen og giver det unikke ID vi får fra imageID

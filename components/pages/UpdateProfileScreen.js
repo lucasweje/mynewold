@@ -20,7 +20,7 @@ export default class AddItemScreen extends React.Component {
 
 
     static navigationOptions = {
-        title: "UpdateProfile"
+        title: "Update Profile"
     };
 
     componentDidMount() {

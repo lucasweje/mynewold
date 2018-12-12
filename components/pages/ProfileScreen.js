@@ -111,7 +111,7 @@ export default class ProfileScreen extends React.Component {
 
         
         <View style={{ marginBottom: 20 }}>
-          <Button title="Edit profile" onPress={() => this.props.navigation.navigate('UpdateProfile', { item: this.state.profileObject })} color="#2B8144"></Button>
+          <Button title="Edit profile" onPress={() => this.props.navigation.navigate('Update Profile', { item: this.state.profileObject })} color="#2B8144"></Button>
           <Text>{'\n'}</Text>
           <Button title="Log out" onPress={() => firebase.auth().signOut()} color='red'></Button>
         </View>
