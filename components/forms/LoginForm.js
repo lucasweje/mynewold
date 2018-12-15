@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TextInput, Button, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, TextInput, Button, Text, StyleSheet, ActivityIndicator, Image } from 'react-native';
 import firebase from 'firebase';
 import SignUpForm from './SignUpForm'
 
@@ -15,12 +15,13 @@ export default class LoginForm extends React.Component {
     }
 
     render() {
+        // Viser som default case=true, men hvis der trykke på "Sign Up" ændre hasLogin i staten sig til false og SignUpForm bliver vist
         switch (this.state.hasLogin) {
             case true:
-                return (
-                   
+                return (                   
                     <View style={{ flex: 1, padding: 40, justifyContent: 'center', alignItems: 'stretch' }}>
-                        <Text h1 size="large">Sign In</Text>
+
+                        <Text style={{ fontSize: 20}}>Sign In</Text>
 
                         <TextInput
                             label='Username'
@@ -44,14 +45,16 @@ export default class LoginForm extends React.Component {
 
                         {this.renderButton("Login", this.onButtonPresssSignIn.bind(this))}
                         <Text>{'\n'}</Text>
-                        {this.renderButton("Sign Up", this.onButtonPressSetLoginFalse.bind(this))}
+                        {this.renderButton("Sign Up With New Account", this.onButtonPressSetLoginFalse.bind(this))}
                     </View>
                 );
 
             case false:
                 return (
-                    <View>
+                    <View style={{ flex: 1, padding: 40, justifyContent: 'center', alignItems: 'stretch' }}>
                         <SignUpForm />
+                        <Text>{'\n'}</Text>
+                        {/* Go Back knappen sætter hasLogin i state = true, og derefter ændre View sig tilbage til LoginForm */}
                         {this.renderButton("Go back", this.onButtonPressSetLoginTrue.bind(this))}
                     </View>
                 );
@@ -86,6 +89,7 @@ export default class LoginForm extends React.Component {
         );
     }
 
+    // metoden henter de indtastede oplysninger fra staten og laver derefter et firebase.auth() kald der forsøger at logge ind
     onButtonPresssSignIn() {
         const { email, password } = this.state;
 

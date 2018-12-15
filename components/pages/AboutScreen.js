@@ -2,6 +2,8 @@ import React from 'react';
 import { ActivityIndicator, View, ScrollView, Image, Text, StyleSheet } from 'react-native';
 import firebase from 'firebase';
 
+// Sker ikke noget specielt på denne her skærm
+// Er bare hardcoded med en masse tekst
 
 export default class AboutScreen extends React.Component {
   constructor(props) {

@@ -14,7 +14,9 @@ export default class SignUpForm extends React.Component {
 
     render() {
         return (
-            <View>
+            <View >
+                <Text style={{ fontSize: 20 }}>Sign Up</Text>
+
                 <TextInput
                     label='Username'
                     placeholder='email@email.com'
@@ -49,6 +51,7 @@ export default class SignUpForm extends React.Component {
         );
     }
 
+    // Opretter en bruger i Firebase med de intastede email og password
     onButtonPress() {
         const { email, password } = this.state;
 
@@ -62,6 +65,8 @@ export default class SignUpForm extends React.Component {
             .catch(this.onSignUpFail.bind(this));
     }
 
+    // Kan brugeren godt oprettes så laver vi et objekt med alt brugerens information sat = n/a
+    // De opfordres herefter til at gå ind og udfylde informationen selv
     onSignUpSucces() {
         const { email, password } = this.state;
 

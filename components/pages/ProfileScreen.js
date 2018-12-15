@@ -27,10 +27,12 @@ export default class ProfileScreen extends React.Component {
     this.getUserData();
   }
 
+  // Henter data omkring brugeren
   getUserData() {
     var that = this;
     // tager currentUser for at finde deres specifikke data
     return firebase.database().ref('users/' + firebase.auth().currentUser.uid).on('value', function (snapshot) {
+      
       // gemmer data både som et JSON objekt og et Array så det både kan bruges i FlastList og sendes videre til UpdateProfile skærmen
       profileObject = snapshot.val();
       profileArray = Object.values(snapshot.val());
@@ -111,7 +113,7 @@ export default class ProfileScreen extends React.Component {
 
         
         <View style={{ marginBottom: 20 }}>
-          <Button title="Edit profile" onPress={() => this.props.navigation.navigate('Update Profile', { item: this.state.profileObject })} color="#2B8144"></Button>
+          <Button title="Edit profile" onPress={() => this.props.navigation.navigate('UpdateProfile', { item: this.state.profileObject })} color="#2B8144"></Button>
           <Text>{'\n'}</Text>
           <Button title="Log out" onPress={() => firebase.auth().signOut()} color='red'></Button>
         </View>

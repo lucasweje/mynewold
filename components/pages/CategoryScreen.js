@@ -24,27 +24,9 @@ export default class CategorySreen extends React.Component {
 
         // Modtager den valgte kategorien som string fra den forrige skærm
         const { navigation } = this.props;
-        const items = navigation.getParam('item', 'ike noge tioeither');
+        const items = navigation.getParam('item', 'No cateogory');
 
         this.getItemsData(items.toLowerCase());
-
-
-        // Der laves et Array rundt om item (det kræver en FlatList), herefter filtreres alle de elementer som ikke indeholder 'brand'
-        // Det gøres for at fjerne kategoriens eget 'billede' og 'overskrift' strings, så de ikke vises i FlatListen
-        // const data = Object.values(items).filter(item => {
-        //     if (item.hasOwnProperty('brand')) {
-        //         return item;
-        //     }
-        // });
-
-        // laver et array der kun indeholder tøj objektets image attribut
-        // var nyData = data;
-        // var imageID = [];
-        // for (var i = 0; i < data.length; i++) {
-        //     imageID.push(data[i].image);
-        // }
-
-        // this.getImage(imageID, nyData);
 
     }
 
@@ -52,9 +34,7 @@ export default class CategorySreen extends React.Component {
         var that = this;
 
         return firebase.database().ref('/items/' + category).on('value', function (snapshot) {
-            // itemz = Object.values(snapshot.val());
-
-            // Der laves et Array rundt om item (det kræver en FlatList), herefter filtreres alle de elementer som ikke indeholder 'brand'
+            // Der laves et Array rundt om item (det kræver en FlatList), herefter filtreres alle de elementer som ikke indeholder 'brand' væk
             // Det gøres for at fjerne kategoriens eget 'billede' og 'overskrift' strings, så de ikke vises i FlatListen
             const data = Object.values(snapshot.val()).filter(item => {
                 if (item.hasOwnProperty('brand')) {
@@ -133,7 +113,7 @@ export default class CategorySreen extends React.Component {
                         <ListItem
                             title={item.title}
                             subtitle={'Points: ' + item.price}
-                            // sender item fra forrige skærm med igen som et objekt 
+                            // sender det item der er trykket på med som et objekt til ProductScreen 
                             onPress={() => this.props.navigation.navigate('Product', { item: item })}
                             avatar={
                                 <Image

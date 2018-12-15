@@ -2,8 +2,7 @@ import React from 'react';
 import { ActivityIndicator, FlatList, View, Image, Text, StyleSheet, Button, } from 'react-native';
 import { ListItem, } from 'react-native-elements';
 import EventBus from 'react-native-event-bus';
-import firebase from 'firebase';
-import { MaterialIcons } from '@expo/vector-icons';
+
 
 
 
@@ -23,42 +22,13 @@ export default class BasketScreen extends React.Component {
     title: "Basket"
   };
 
-
-  /*
-
-  shouldComponentUpdate(nextProps, nextState) {
-    console.log("nextprops")
-    //console.log("nextprops test",nextProps)
-    console.log("nextstate")
-    //console.log(nextState)
-
-    let getProps = Object.values(nextProps)
-    let getState = Object.values(getProps[1])
-    let test1 = Object.values(getState[3].params)
-    let data = test1[0];
-
-    let itemInBasket = []
-    itemInBasket.push(data)
-    
-    console.log(itemInBasket)
-    
-    this.setState({
-      dataSource: itemInBasket
-    })
-    
-
-    return true;  
-  }
-
-  */
-
   componentDidMount() {
     var that = this;
 
     // Opretter en EventBus Listener der lytter på ruten "addToBasket"
     // Den lytter for at se om vi tilføjer noget tøj til vores kurv --> se "ProductScreen"
     EventBus.getInstance().addListener("addToBasket", this.listener = data => {
-      // handle the event
+      // pusher dataen fra EventBus ind i et arrayet der i forvejen indeholder alt fra state.dataSource (altså Basket)
       var itemInBasket = that.state.dataSource;
       itemInBasket.push(data.item);
 
@@ -69,13 +39,13 @@ export default class BasketScreen extends React.Component {
         newTotalPrice += parseInt(item.price);
       });
 
-      // gemmer arrayet og den totale pris under i staten 
+      // gemmer det nye array med tøj fra EventBus og den totale pris i staten 
       that.setState({
         dataSource: itemInBasket,
         refresh: !that.state.refresh,
         totalPrice: newTotalPrice
       });
-      that.forceUpdate();
+      // that.forceUpdate();
     })
 
     // Fordi EventBus først kan modtage data når vi i app'en har været inde under "Basket tab" 

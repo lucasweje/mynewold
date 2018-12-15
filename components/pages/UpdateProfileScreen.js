@@ -20,13 +20,12 @@ export default class AddItemScreen extends React.Component {
 
 
     static navigationOptions = {
-        title: "Update Profile"
+        title: "UpdateProfile"
     };
 
     componentDidMount() {
         // modtager objektet item og putter det ind i 'item' så det kan vises inde i tekstInput
         // så behøver man kun at redigere det man ønsker, og ikke taste alting igen
-
         const { navigation } = this.props;    
         const item = navigation.getParam('item', 'ike noge tioeither');
 

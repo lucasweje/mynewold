@@ -38,6 +38,7 @@ export default class ProductSreen extends React.Component {
             item
         });
 
+        // Navigerer til BasketScreen med item som et objekt
         this.props.navigation.navigate('Basket', { item: item });
     }
 
@@ -59,29 +60,9 @@ export default class ProductSreen extends React.Component {
             image: item.image,
         });
 
-        // HUSK FJERN DISSE KOMMENTAR HVIS VI SKAL HAVE DET RIGTIGE BILLEDE, LIGE NU ER DET RANDOM NEMLIG
-        // kalder getImage med et unikt billede ID
-        // this.getImage(item.image);
-
     }
-
-    getImage = async (imageName) => {
-        var that = this;
-        // laver en referene til 'storage' hvor billeder der uploades direkte fra appen gemmes
-        let storageRef = firebase.storage().ref();
-
-        // vi går ind i 'images' mappen og giver det unikke ID vi får fra funktionene parametre 
-        storageRef.child("images/" + imageName).getDownloadURL().then(function (url) {
-            // gemmer url'en i state så vi kan loade billedet i app'en
-            that.setState({
-                image: url
-            });
-        });
-    }
-
     
     render() {
-        console.log(this.state.image);
         return (
             <ScrollView
                 contentContainerStyle={styles.container}

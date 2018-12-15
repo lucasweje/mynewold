@@ -28,14 +28,15 @@ export default class AddItemScreen extends React.Component {
     title: "Add item"
   };
 
-  componentDidMount(){
+  componentDidMount() {
     this.getSellerData();
 
   }
 
-
+  // Funktionen bliver kørt når der trykke på knappen i UI
   addItemToDatabase() {
 
+    // Laver en masse variable til at indeholde den information brugeren har tastet ind
     var title = this.state.title;
     var brand = this.state.brand;
     var category = this.state.category;
@@ -43,12 +44,12 @@ export default class AddItemScreen extends React.Component {
     var size = this.state.size;
     var description = this.state.description;
     var image = firebase.auth().currentUser.uid + title;
-    var price = Math.floor((Math.random() * 100) +10);
+    var price = Math.floor((Math.random() * 100) + 10);
     var result = this.state.result;
     var seller = this.state.seller;
 
     // Laver variabel 'that' til at holde 'this' da vi arbejder inde i et Firebase kald.
-    var that = this;  
+    var that = this;
 
     // Tjekker først at kateogiren er valgt fra 'Pickeren'
     if (category) {
@@ -68,10 +69,12 @@ export default class AddItemScreen extends React.Component {
             seller,
           }).then((data) => {
 
+            // Hvis der er givet adgang til kameraet --> se onChooseImagePress() funktionen
+            // så kalder vi uploadImage() funktionen med billedet
             if (!result.cancelled) {
               that.uploadImage(result.uri, image)
                 .then(() => {
-                  alert("Success");
+                  alert("Image was uploaded successfully");
                 })
                 .catch((error) => {
                   alert(error);
@@ -99,10 +102,10 @@ export default class AddItemScreen extends React.Component {
     }
   }
 
+  // tager currentUser for at kunne sætte 'seller' = den person som er logget ind
   getSellerData() {
     var that = this;
-     // tager currentUser for at finde kunne sætte 'seller' = den person som er logget ind
-     firebase.database().ref('users/' + firebase.auth().currentUser.uid).on('value', function (snapshot) {
+    firebase.database().ref('users/' + firebase.auth().currentUser.uid).on('value', function (snapshot) {
       profileObject = snapshot.val();
       that.setState({
         seller: profileObject.firstName + " " + profileObject.lastName
@@ -112,19 +115,21 @@ export default class AddItemScreen extends React.Component {
 
   }
 
+  // Funktionen kører når der trykkes på tilføj billede knappen
   onChooseImagePress = async () => {
+    // Venter på at brugeren giver app'en adgang til kamera
     await Permissions.askAsync(Permissions.CAMERA);
     await Permissions.askAsync(Permissions.CAMERA_ROLL);
 
     let result = await ImagePicker.launchCameraAsync();
 
-    // let result = await ImagePicker.launchImageLibraryAsync();
-
+    // gemmer resultatet om brugeren gav adgang i staten
     this.setState({
       result
     });
   }
 
+  // tager billedet og det unikke imageName og uploader det til firebase.storage() så det kan downloades senere
   uploadImage = async (uri, imageName) => {
     const response = await fetch(uri);
     const blob = await response.blob();
@@ -134,10 +139,6 @@ export default class AddItemScreen extends React.Component {
   }
 
   render() {
-
-    
-
-
     if (this.state.isLoading) {
       return (
         <View style={{ flex: 1, padding: 20, justifyContent: 'center', alignItems: 'center' }}>
@@ -234,7 +235,10 @@ export default class AddItemScreen extends React.Component {
 
         <View style={{ flexDirection: "column", height: 50, justifyContent: "space-between", }}>
 
-          <Button title="Take picture of item..." onPress={this.onChooseImagePress} />
+          <Button 
+            title="Take picture of item..." 
+            onPress={this.onChooseImagePress} 
+            />
           <Text>{'\n'}</Text>
           <Button
             onPress={() => this.addItemToDatabase()}

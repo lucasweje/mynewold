@@ -6,6 +6,8 @@ import firebase from 'firebase';
 
 export default class App extends React.Component {
 
+  // Den aller første skærm som appen viser
+
   constructor(props) {
     super(props);
     this.state = {
@@ -13,6 +15,7 @@ export default class App extends React.Component {
     }
   }
 
+  // tilslutter sig til Firebase
   componentWillMount() {
     firebase.initializeApp({
       apiKey: "AIzaSyDsJGuZCMRlfmcjVcSany7s74Bb48ajDWE",
@@ -23,6 +26,7 @@ export default class App extends React.Component {
       messagingSenderId: "648339049803"
     });
 
+    // Tjekker om en bruger er logget ind, og ændre staten herefter.
     firebase.auth().onAuthStateChanged(user => {
       if(user){
         this.setState({ loggedIn: true});
@@ -35,13 +39,14 @@ export default class App extends React.Component {
 
   render() {
     switch (this.state.loggedIn) {
+      // Hvis brugeren er logget ind vises BottomNavigator
       case true:
         return (
           <View style={styles.container}>
             <BottomNavigator />
           </View>
         );
-
+      // Er der ingen bruger logget ind vises login skærmen
       case false:
         return (
           <View style={styles.container}>

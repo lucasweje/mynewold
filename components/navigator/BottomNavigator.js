@@ -10,7 +10,7 @@ import UpdateProfileScreen from '../pages/UpdateProfileScreen';
 import AboutScreen from '../pages/AboutScreen';
 import ProductScreen from '../pages/ProductScreen';
 
-
+// Laver 3 Stacks, selvom AddItem egentlig ikke behøvede at være en stack, da den kun indeholder en Screen
 const MarketStack = createStackNavigator({
     Market: { screen: MarketScreen },
     Category: {screen: CategorySreen},
@@ -26,7 +26,7 @@ const ProfileStack = createStackNavigator({
     UpdateProfile: { screen: UpdateProfileScreen}
 });
 
-
+// Laver 5 forskellige tabs i bunden af appen som bruges til at navigere 
 export default createBottomTabNavigator(
     {
         Market: {screen: MarketStack},
@@ -37,6 +37,7 @@ export default createBottomTabNavigator(
 
     },
 
+    // Hver tab får deres eget ikon, og en aktiv og inaktiv farve for bedre brugervenlighed
     {
         navigationOptions: ({ navigation }) => ({
     
